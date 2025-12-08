@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             saveCurrentUser();
             alert("Вхід успішний!");
-            window.location.href = "home.html";
+            window.location.href = "index.html";
         });
     }
 
@@ -368,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Перевірка доступу
     if (!window.currentUser || (window.currentUser.role !== "admin" && window.currentUser.role !== "mainAdmin")) {
         alert("У вас немає доступу.");
-        window.location.href = "home.html";
+        window.location.href = "index.html";
         return;
     }
 
