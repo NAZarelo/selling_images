@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="login">
+    <div class="auth-container">
+        <h2>Увійти</h2>
+
+        <form id="loginForm">
+            <label for="loginName">Ім'я користувача:</label><br>
+            <input class="login-inp" type="text" id="loginName" name="username" required><br>
+
+            <label for="loginPass">Пароль:</label><br>
+            <input class="login-inp" type="password" id="loginPass" name="password" required><br>
+
+            <button class="login-btn" type="submit">Увійти</button>
+        </form>
+
+        <p>Немає акаунту? <a href="register.html">Зареєструватись</a></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

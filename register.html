@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="register">
+  <div class="auth-container">
+    <h2>Реєстрація</h2>
+
+    <form id="registerForm">
+      <label for="regName">Ім'я користувача:</label><br>
+      <input id="regName" class="register-inp" type="text" name="username" required><br>
+
+      <label for="regPass">Пароль:</label><br>
+      <input id="regPass" class="register-inp" type="password" name="password" required><br>
+
+      <button class="login-btn" type="submit">Зареєструватись</button>
+    </form>
+
+    <p>Вже маєте акаунт? <a href="login.html">Увійти</a></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

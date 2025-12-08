@@ -1,0 +1,583 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+@media(orientation: landscape) {
+
+    body {
+        font-family: "Nunito", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+
+    }
+
+    header {
+        margin: 0;
+    }
+
+    .head-main {
+        text-align: right;
+        color: white;
+        background-color: #0D6EFD;
+        padding: 20px;
+    }
+
+    .menu-home {
+        display: flex;
+        height: 400px;
+    }
+
+    .card-menu-home {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body-menu-home {
+        margin: 10px;
+        padding: 20px;
+        color: white;
+        background-color: #0D6EFD;
+        border-radius: 15px;
+        flex: 1;
+    }
+
+    .card-img {
+        text-align: center;
+    }
+
+    .card-img img {
+        width: 50%;
+    }
+
+
+    .btn-menu-home {
+        background-color: white;
+        color: #0D6EFD;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 15px;
+    }
+
+    .account-logo {
+        width: 50px;
+        height: 50px;
+        float: left;
+    }
+
+    .uploadform {
+        display: flex;
+        direction: column;
+    }
+
+
+    .image-for-sale-card {
+        width: 99%;
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 15px;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .image-for-sale {
+        width: 99%;
+    }
+
+
+
+
+    .create-form {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .create-form-h {
+        color: #0D6EFD;
+        margin: 30px;
+    }
+
+    .create-form-inp-f {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-n {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-select {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-but {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-price {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .login-register-but {
+        background-color: #0D6EFD;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 10px;
+        border: none;
+    }
+
+    .preview-img {
+        min-width: 500px;
+        max-width: 600px;
+        border: 1px solid #0D6EFD;
+        margin: 10px;
+    }
+
+    .logout-btn {
+        background-color: #0D6EFD;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+    }
+
+    .account-block {
+        margin: 20px;
+        color: #0D6EFD;
+        text-decoration: none;
+    }
+
+    .change-pas-btn {
+        background-color: #0D6EFD;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+    }
+
+    .change-pas {
+        display: none;
+        position: fixed;
+        background-color: white;
+        color: #0D6EFD;
+        border: 3px solid #0D6EFD;
+        border-radius: 15px;
+        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 300px;
+
+    }
+
+    .change-pas-inp {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+        width: 90%;
+    }
+
+    .change-pas-button {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 5px;
+        margin: 10px;
+        border: none;
+        float: right;
+    }
+
+    .change-pas-btn {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .change-pas-button-c {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 5px;
+        margin: 10px;
+        border: none;
+        float: right;
+    }
+
+    .auth-container {
+        position: fixed;
+        background-color: white;
+        color: #0D6EFD;
+        border: 3px solid #0D6EFD;
+        border-radius: 15px;
+        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 300px;
+    }
+
+    .register-inp{
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+        width: 90%;
+    }
+
+    .register-btn{
+        background-color: #0D6EFD;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .login-inp{
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+        width: 90%;
+    }
+
+    .login-btn{
+        background-color: #0D6EFD;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+}
+
+
+
+
+@media(orientation: portrait) {
+
+    body {
+        font-family: "Nunito", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+
+    }
+
+    header {
+        margin: 0;
+    }
+
+    .head-main {
+        text-align: right;
+        color: white;
+        background-color: #0D6EFD;
+        padding: 20px;
+    }
+
+    .menu-home {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+    }
+
+    .card-menu-home {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .card-body-menu-home {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 20px;
+        color: white;
+        background-color: #0D6EFD;
+        border-radius: 15px;
+        flex: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .btn-menu-home {
+        background-color: white;
+        color: #0D6EFD;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 15px;
+    }
+
+    .card-img {
+        text-align: center;
+    }
+
+    .card-img img {
+        width: 50%;
+    }
+
+    .account-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+
+
+    .image-for-sale-card {
+        width: 95%;
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 15px;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .image-for-sale {
+        width: 99%;
+    }
+
+
+
+
+    .create-form {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .create-form-h {
+        color: #0D6EFD;
+        margin: 30px;
+    }
+
+    .create-form-inp-f {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-n {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-select {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-but {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .create-form-inp-price {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .login-register-but {
+        background-color: #0D6EFD;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+    }
+
+    .preview-img {
+        width: 95%;
+        border: 1px solid #0D6EFD;
+        margin: 10px;
+    }
+
+    .logout-btn {
+        background-color: #0D6EFD;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+    }
+
+    .account-block {
+        color: #0D6EFD;
+        text-decoration: none;
+    }
+
+    .change-pas-btn {
+        background-color: #0D6EFD;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+    }
+
+    .change-pas {
+        display: none;
+        position: fixed;
+        background-color: white;
+        color: #0D6EFD;
+        border: 3px solid #0D6EFD;
+        border-radius: 15px;
+        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 90%;
+
+    }
+
+    .change-pas-inp {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+        width: 90%;
+    }
+
+    .change-pas-button {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+        float: right;
+    }
+
+    .change-pas-btn {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin: 10px;
+        border: none;
+    }
+
+    .change-pas-button-c {
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 5px;
+        margin: 10px;
+        border: none;
+        float: right;
+    }
+
+    .auth-container {
+        position: fixed;
+        background-color: white;
+        color: #0D6EFD;
+        border: 3px solid #0D6EFD;
+        border-radius: 15px;
+        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 300px;
+    }
+
+    .register-inp{
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+        width: 90%;
+    }
+
+    .register-btn{
+        background-color: #0D6EFD;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+
+    .auth-container {
+        position: fixed;
+        background-color: white;
+        color: #0D6EFD;
+        border: 3px solid #0D6EFD;
+        border-radius: 15px;
+        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 90%;
+    }
+
+    .login-inp{
+        background-color: #0D6EFD;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+        width: 90%;
+    }
+
+    .login-btn{
+        background-color: #0D6EFD;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: none;
+    }
+}
