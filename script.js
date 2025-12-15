@@ -38,10 +38,17 @@ function renderImages(list) {
         const card = document.createElement("div");
         card.className = "image-card";
 
-        let deleteBtn = "";
-
+        let adminBtn = "";
         if (window.currentUser && (window.currentUser.role === "admin" || window.currentUser.role === "mainAdmin")) {
-            deleteBtn = `<button class="delete-image-btn" data-id="${index}">Видалити</button>`;
+            adminBtn = `<button class="delete-image-btn" data-id="${index}">Видалити</button>`;
+        }
+
+        let downloadBtn = "";
+
+        if (img.type === "free") {
+            downloadBtn = `<a class="btn-menu-home" href="${img.src}" download>Завантажити</a>`;
+        } else {
+            downloadBtn = `<button class="buy-btn" data-id="${index}">Купити за ${img.price} балів</button>`;
         }
 
         card.innerHTML = `
@@ -50,20 +57,53 @@ function renderImages(list) {
                 <h3>${img.title}</h3>
                 <p>Категорія: ${img.category}</p>
                 <p>Тип: ${img.type === "free" ? "Безкоштовне" : "Платне"}</p>
-                <p>Ціна ${img.price}</p>
-                <a class="btn-menu-home" href="${img.url || img.src}" download>Завантажити</a>
+                <p>Ціна: ${img.price}</p>
+                ${downloadBtn}
+                ${adminBtn}
             </div>
         `;
 
         gallery.appendChild(card);
     });
 
+    // ВИДАЛЕННЯ
     document.querySelectorAll(".delete-image-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = btn.dataset.id;
             window.imagesDB.splice(id, 1);
             saveImagesDB();
             renderImages(list);
+        });
+    });
+
+    // КУПІВЛЯ
+    document.querySelectorAll(".buy-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            if (!window.currentUser) return alert("Увійдіть, щоб купувати.");
+
+            const id = btn.dataset.id;
+            const img = window.imagesDB[id];
+
+            const user = window.usersDB.find(u => u.username === window.currentUser.username);
+
+            if (!confirm(`Купити "${img.title}" за ${img.price} балів?`)) return;
+
+            if (user.points < img.price) {
+                return alert("Недостатньо балів.");
+            }
+
+            user.points -= img.price;
+            saveUsersDB();
+
+            window.currentUser.points = user.points;
+            saveCurrentUser();
+
+            const a = document.createElement("a");
+            a.href = img.src;
+            a.download = img.title;
+            a.click();
+
+            alert("Покупка успішна!");
         });
     });
 }
@@ -97,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
             accountblock.innerHTML = `
                 <h2>Ви: ${window.currentUser.username}</h2>
                 <p>Роль: ${window.currentUser.role}</p>
+                <p>Бали: ${window.currentUser.points}</p>
                 <button class="change-pas-btn">змінити пароль</button><br>
                 <button class="logout-btn">Вийти</button>
             `;
@@ -104,10 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================
-    // Захист create.html
+    // Доступ до create.html
     // ==========================
     if (page === "create" && !window.currentUser) {
-        alert("Будь ласка, увійдіть, щоб додавати зображення.");
+        alert("Увійдіть, щоб додавати зображення.");
         window.location.href = "login.html";
         return;
     }
@@ -143,7 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             window.currentUser = {
                 username: user.username,
-                role: user.role
+                role: user.role,
+                points: user.points
             };
 
             saveCurrentUser();
@@ -169,10 +211,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             let role = "user";
-
             if (username === "naz") role = "mainAdmin";
 
-            window.usersDB.push({ username, password, role });
+            window.usersDB.push({ username, password, role, points: 100 });
             saveUsersDB();
 
             alert("Реєстрація успішна!");
@@ -240,15 +281,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const typeSelect = document.getElementById("type");
         const priceInput = document.getElementById("price");
 
-        // Показ/приховування ціни
-        if (typeSelect && priceInput) {
-            function togglePrice() {
-                if (typeSelect.value === "free") {
-                    priceInput.style.display = "none";
-                } else {
-                    priceInput.style.display = "block";
-                }
+        function togglePrice() {
+            if (typeSelect.value === "free") {
+                priceInput.style.display = "none";
+            } else {
+                priceInput.style.display = "block";
             }
+        }
+        if (typeSelect && priceInput) {
             typeSelect.addEventListener("change", togglePrice);
             togglePrice();
         }
@@ -296,7 +336,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// ======================= АДМІНКА =======================
+// =====================================================================================
+// АДМІНКА
+// =====================================================================================
+
 let adminLink = document.querySelector('.adminLink');
 if (adminLink) {
     if (window.currentUser && (window.currentUser.role === "admin" || window.currentUser.role === "mainAdmin")) {
@@ -306,7 +349,6 @@ if (adminLink) {
     }
 }
 
-// ======================= ФУНКЦІЇ АДМІНКИ =======================
 function adminDeleteImage(index) {
     if (!window.currentUser || (window.currentUser.role !== "admin" && window.currentUser.role !== "mainAdmin")) return;
     window.imagesDB.splice(index, 1);
@@ -316,6 +358,7 @@ function adminDeleteImage(index) {
 
 function adminDeleteUser(username) {
     if (!window.currentUser) return;
+
     const user = window.usersDB.find(u => u.username === username);
     if (!user) return;
 
@@ -324,55 +367,60 @@ function adminDeleteUser(username) {
         return;
     }
 
-    const confirmDelete = confirm(`Видалити користувача ${username}?`);
-    if (!confirmDelete) return;
+    if (!confirm(`Видалити користувача ${username}?`)) return;
 
     const idx = window.usersDB.findIndex(u => u.username === username);
-    if (idx !== -1) {
-        window.usersDB.splice(idx, 1);
-        saveUsersDB();
-        if (window.currentUser.username === username) {
-            localStorage.removeItem("currentUser");
-        }
-        window.location.reload();
-    }
+    window.usersDB.splice(idx, 1);
+    saveUsersDB();
+
+    window.location.reload();
 }
 
 function giveAdmin(username) {
-    if (!window.currentUser || window.currentUser.role !== "mainAdmin") return;
+    if (window.currentUser.role !== "mainAdmin") return;
+
     const user = window.usersDB.find(u => u.username === username);
-    if (user) {
-        user.role = "admin";
-        saveUsersDB();
-        window.location.reload();
-    }
+    user.role = "admin";
+
+    saveUsersDB();
+    window.location.reload();
 }
 
 function removeAdmin(username) {
-    if (!window.currentUser || window.currentUser.role !== "mainAdmin") return;
+    if (window.currentUser.role !== "mainAdmin") return;
+
     const user = window.usersDB.find(u => u.username === username);
-    if (user && user.role === "admin") {
-        user.role = "user";
-        saveUsersDB();
-        window.location.reload();
-    }
+    user.role = "user";
+
+    saveUsersDB();
+    window.location.reload();
+}
+
+function givePoints(username) {
+    const amount = +prompt("Скільки балів додати?");
+    if (amount <= 0) return;
+
+    const user = window.usersDB.find(u => u.username === username);
+    user.points += amount;
+
+    saveUsersDB();
+    window.location.reload();
 }
 
 // =====================================================================================
-// АДМІНКА — РЕНДЕР ПАНЕЛІ
+// РЕНДЕР АДМІНКИ
 // =====================================================================================
 document.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page;
     if (page !== "admin") return;
 
-    // Перевірка доступу
     if (!window.currentUser || (window.currentUser.role !== "admin" && window.currentUser.role !== "mainAdmin")) {
         alert("У вас немає доступу.");
         window.location.href = "index.html";
         return;
     }
 
-    // ======================= ЗОБРАЖЕННЯ =======================
+    // ======================= IMAGES =======================
     const imgBox = document.getElementById("admin-images");
 
     imgBox.innerHTML = window.imagesDB.map((img, i) => `
@@ -383,13 +431,13 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     `).join("");
 
-    // ======================= ПОШУК ЗОБРАЖЕННЯ =======================
+    // ======================= SEARCH IMAGES =======================
     const imgSearchBox = document.getElementById("admin-images-search");
 
     imgSearchBox.innerHTML = `
-    <input id="admin-img-search-input" placeholder="Введіть назву...">
-    <div id="admin-img-search-result"></div>
-`;
+        <input id="admin-img-search-input" placeholder="Введіть назву...">
+        <div id="admin-img-search-result"></div>
+    `;
 
     const imgSearchInput = document.getElementById("admin-img-search-input");
     const imgSearchResult = document.getElementById("admin-img-search-result");
@@ -401,81 +449,68 @@ document.addEventListener("DOMContentLoaded", () => {
             img.title.toLowerCase().includes(q)
         );
 
-        imgSearchResult.innerHTML = results
-            .map((img, i) => `
+        imgSearchResult.innerHTML = results.map((img, i) => `
             <div class="admin-item">
                 <img src="${img.src}" style="width:120px;">
                 <p>${img.title}</p>
                 <button onclick="adminDeleteImage(${i})">Видалити</button>
             </div>
-        `)
-            .join("") || "<p>Нічого не знайдено.</p>";
+        `).join("") || "<p>Нічого не знайдено.</p>";
     });
 
-
-    // ======================= КОРИСТУВАЧІ =======================
+    // ======================= USERS =======================
     const usersBox = document.getElementById("admin-users");
 
     usersBox.innerHTML = window.usersDB.map(u => {
-        let buttons = `<button onclick="adminDeleteUser('${u.username}')">Видалити</button>`;
+        let btns = `<button onclick="adminDeleteUser('${u.username}')">Видалити</button>
+                    <button onclick="givePoints('${u.username}')">Дати бали</button>`;
 
         if (window.currentUser.role === "mainAdmin") {
-            if (u.role === "user") {
-                buttons += `<button onclick="giveAdmin('${u.username}')">Зробити адміном</button>`;
-            }
-            if (u.role === "admin") {
-                buttons += `<button onclick="removeAdmin('${u.username}')">Забрати роль адміна</button>`;
-            }
+            if (u.role === "user") btns += `<button onclick="giveAdmin('${u.username}')">Зробити адміном</button>`;
+            if (u.role === "admin") btns += `<button onclick="removeAdmin('${u.username}')">Зняти адміна</button>`;
         }
 
         return `
             <div class="admin-item">
-                <p>${u.username} (${u.role})</p>
-                ${buttons}
+                <p>${u.username} (${u.role}) — Бали: ${u.points}</p>
+                ${btns}
             </div>
         `;
     }).join("");
 
-    
-// ======================= ПОШУК КОРИСТУВАЧІВ =======================
-const userSearchBox = document.getElementById("admin-users-search");
+    // ======================= USER SEARCH =======================
+    const userSearchBox = document.getElementById("admin-users-search");
 
-userSearchBox.innerHTML = `
-    <input id="admin-user-search-input" placeholder="Введіть ім'я користувача...">
-    <div id="admin-user-search-result"></div>
-`;
+    userSearchBox.innerHTML = `
+        <input id="admin-user-search-input" placeholder="Введіть ім'я...">
+        <div id="admin-user-search-result"></div>
+    `;
 
-const userSearchInput = document.getElementById("admin-user-search-input");
-const userSearchResult = document.getElementById("admin-user-search-result");
+    const userSearchInput = document.getElementById("admin-user-search-input");
+    const userSearchResult = document.getElementById("admin-user-search-result");
 
-userSearchInput.addEventListener("input", () => {
-    const q = userSearchInput.value.toLowerCase();
+    userSearchInput.addEventListener("input", () => {
+        const q = userSearchInput.value.toLowerCase();
 
-    const results = window.usersDB.filter(u =>
-        u.username.toLowerCase().includes(q)
-    );
+        const results = window.usersDB.filter(u =>
+            u.username.toLowerCase().includes(q)
+        );
 
-    userSearchResult.innerHTML = results
-        .map(u => {
-            let buttons = `<button onclick="adminDeleteUser('${u.username}')">Видалити</button>`;
+        userSearchResult.innerHTML = results.map(u => {
+            let btns = `<button onclick="adminDeleteUser('${u.username}')">Видалити</button>
+                        <button onclick="givePoints('${u.username}')">Дати бали</button>`;
 
             if (window.currentUser.role === "mainAdmin") {
-                if (u.role === "user") {
-                    buttons += `<button onclick="giveAdmin('${u.username}')">Зробити адміном</button>`;
-                }
-                if (u.role === "admin") {
-                    buttons += `<button onclick="removeAdmin('${u.username}')">Забрати роль адміна</button>`;
-                }
+                if (u.role === "user") btns += `<button onclick="giveAdmin('${u.username}')">Зробити адміном</button>`;
+                if (u.role === "admin") btns += `<button onclick="removeAdmin('${u.username}')">Зняти адміна</button>`;
             }
 
             return `
                 <div class="admin-item">
-                    <p>${u.username} (${u.role})</p>
-                    ${buttons}
+                    <p>${u.username} (${u.role}) — Бали: ${u.points}</p>
+                    ${btns}
                 </div>
             `;
-        })
-        .join("") || "<p>Нічого не знайдено.</p>";
-});
-
+        }).join("") || "<p>Нічого не знайдено.</p>";
+    });
 });
